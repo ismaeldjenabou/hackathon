@@ -59,7 +59,6 @@ public class GamePanel extends JPanel implements Runnable {
         gamThread.start();
     }
 
-
     //draw and update at the fps rate with System.nanoTime() to get the current time
     @Override
     public void run() {
@@ -71,6 +70,8 @@ public class GamePanel extends JPanel implements Runnable {
             // 1 UPDATE: update game state
             if (!started && keyH.stp){
               started = true;
+            }else if(started && keyH.stp){
+              started = false;
             }
             if (started){
               update();

@@ -27,7 +27,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;
         }
-        if (code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ESCAPE){
+        if (code == KeyEvent.VK_ESCAPE){
           stp = true;
         }
     }
@@ -47,6 +47,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
+        }
+        if (code == KeyEvent.VK_ESCAPE){
+          stp = false;
         }
     }
 
