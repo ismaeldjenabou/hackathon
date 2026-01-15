@@ -1,5 +1,8 @@
 package src.main;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,7 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
     // SCREEN SETTINGS
     final int originalTitleSize = 16; // 16 * 16, tile or size of the sprite
     final int scale = 3; // scale for the tile to make it bigger or smaller
-
+    BufferedImage homeBackground;
     public final int tileSize = originalTitleSize * scale; // 48*48, size of the tile on the screen
     public final int maxScreenCol = 16;
     public final int maxScreenRow = 12;
@@ -34,8 +37,15 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gamThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
+    public boolean started = false;
 
     public GamePanel() {
+
+      try {
+        homeBackground = ImageIO.read(getClass().getResource("/res/home.jpg"));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // preffered size for the window
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -59,7 +69,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         while (gamThread != null) {
             // 1 UPDATE: update game state
-            update();
+            if (!started && keyH.stp){
+              started = true;
+            }
+            if (started){
+              update();
+            }
 
             // 2 DRAW: repaint the screen
             repaint();
@@ -90,9 +105,12 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-
-        tileM.draw(g2);
-        player.draw(g2);
+        if (!started){
+          g2.drawImage(homeBackground,0,0,getWidth(),getHeight(),null);
+        }else{
+          tileM.draw(g2);
+          player.draw(g2);
+        }
 
         g2.dispose();
     }
