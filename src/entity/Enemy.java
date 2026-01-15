@@ -56,14 +56,11 @@ public class Enemy extends Entity {
         direction = "down";
     }
 
-    // Hybrid AI: chase player if close, otherwise random movement
     public void setAction() {
-        // Calculate distance to player
         int xDistance = Math.abs(worldX - gp.player.worldX);
         int yDistance = Math.abs(worldY - gp.player.worldY);
 
         if (xDistance <= detectionRange && yDistance <= detectionRange) {
-            // Chase player
             if (worldX < gp.player.worldX) direction = "right";
             else if (worldX > gp.player.worldX) direction = "left";
 
@@ -71,7 +68,6 @@ public class Enemy extends Entity {
             else if (worldY > gp.player.worldY) direction = "up";
 
         } else {
-            // Random movement (every ~1 second)
             actionLockCounter++;
             if (actionLockCounter > 60) {
                 boolean validDirection = false;
@@ -85,7 +81,6 @@ public class Enemy extends Entity {
                         case 3 -> direction = "right";
                     }
 
-                    // Test collision
                     collisionOn = false;
                     int tempX = worldX;
                     int tempY = worldY;
