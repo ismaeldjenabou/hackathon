@@ -72,19 +72,19 @@ public class Player extends Entity {
     public void update() {
         boolean moving = false;
 
-        if (keyH.upPressed) {
+        if (keyH.upPressed && !collisionOn) {
             direction = "up";
             worldY -= speed;
             moving = true;
-        } else if (keyH.downPressed) {
+        } else if (keyH.downPressed && !collisionOn) {
             direction = "down";
             worldY += speed;
             moving = true;
-        } else if (keyH.leftPressed) {
+        } else if (keyH.leftPressed && !collisionOn) {
             direction = "left";
             worldX -= speed;
             moving = true;
-        } else if (keyH.rightPressed) {
+        } else if (keyH.rightPressed && !collisionOn) {
             direction = "right";
             worldX += speed;
             moving = true;
