@@ -14,11 +14,11 @@ public class Enemy extends Entity {
     GamePanel gp;
     Random random = new Random();
     int actionLockCounter = 0;
-    int detectionRange = gp.tileSize * 5; // enemy sees player within 5 tiles
+    int detectionRange;
 
     public Enemy(GamePanel gp) {
         this.gp = gp;
-
+        detectionRange = gp.tileSize * 5;
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
@@ -55,7 +55,6 @@ public class Enemy extends Entity {
         speed = 2;
         direction = "down";
     }
-
     public void setAction() {
         int xDistance = Math.abs(worldX - gp.player.worldX);
         int yDistance = Math.abs(worldY - gp.player.worldY);
@@ -106,7 +105,6 @@ public class Enemy extends Entity {
             }
         }
     }
-
     public void update() {
         setAction();
 
