@@ -53,7 +53,32 @@ public class GamePanel extends JPanel implements Runnable {
     //draw and update at the fps rate with System.nanoTime() to get the current time
     @Override
     public void run() {
-        //TO DO
+        // execution loop
+        double drawInterval = 1000000000.0 / FPS; // nanoseconds per frame
+        double nextDrawTime = System.nanoTime() + drawInterval;
+
+        while (gamThread != null) {
+            // 1 UPDATE: update game state
+            update();
+
+            // 2 DRAW: repaint the screen
+            repaint();
+
+            try {
+                double remaining = nextDrawTime - System.nanoTime();
+                remaining = remaining / 1000000; // to milliseconds
+
+                if (remaining < 0) {
+                    remaining = 0;
+                }
+
+                Thread.sleep((long) remaining);
+
+                nextDrawTime += drawInterval;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void update() {
