@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import src.main.GamePanel;
 import src.main.KeyHandler;
 
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 public class Player extends Entity {
 
     GamePanel gp;
@@ -35,10 +38,23 @@ public class Player extends Entity {
     // example up from boy_up_0.png
     // using ImageIO.read()
     public final void getPlayerImage() {
-        // TO DO
-        // try {
-        // } catch (IOException e) {
-        // }
+        try {
+            up0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_up_0.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_up_2.png"));
+
+            down0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_down_0.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_down_2.png"));
+
+            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_left_2.png"));
+
+            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p0/boy_right_2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // the default value of the speed, the location and the direction the player is
@@ -54,7 +70,37 @@ public class Player extends Entity {
     // if he can add or substract the speed from his coordonates and select what
     // image to use to maka an animation
     public void update() {
-        //TO DO
+        boolean moving = false;
+
+        if (keyH.upPressed) {
+            direction = "up";
+            worldY -= speed;
+            moving = true;
+        } else if (keyH.downPressed) {
+            direction = "down";
+            worldY += speed;
+            moving = true;
+        } else if (keyH.leftPressed) {
+            direction = "left";
+            worldX -= speed;
+            moving = true;
+        } else if (keyH.rightPressed) {
+            direction = "right";
+            worldX += speed;
+            moving = true;
+        }
+
+        if (moving) {
+            spriteCounter++;
+            if (spriteCounter > 12) {
+                spriteNum++;
+                if (spriteNum > 2) spriteNum = 0;
+                spriteCounter = 0;
+            }
+        } else {
+            spriteNum = 1; // idle frame
+            spriteCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2) {
