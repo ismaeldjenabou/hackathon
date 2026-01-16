@@ -72,29 +72,42 @@ public class Player extends Entity {
     public void update() {
         boolean moving = false;
 
-        if (keyH.upPressed && !collisionOn) {
-            direction = "up";
-            worldY -= speed;
-            moving = true;
-        } else if (keyH.downPressed && !collisionOn) {
-            direction = "down";
-            worldY += speed;
-            moving = true;
-        } else if (keyH.leftPressed && !collisionOn) {
-            direction = "left";
-            worldX -= speed;
-            moving = true;
-        } else if (keyH.rightPressed && !collisionOn) {
-            direction = "right";
-            worldX += speed;
+        // Determine desired direction from input
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) {
+                direction = "up";
+            } else if (keyH.downPressed) {
+                direction = "down";
+            } else if (keyH.leftPressed) {
+                direction = "left";
+            } else if (keyH.rightPressed) {
+                direction = "right";
+            }
+
+            // Check collision before moving
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            // If no collision, move in the chosen direction
+            if (!collisionOn) {
+                switch (direction) {
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
+                }
+            }
+
             moving = true;
         }
 
+        // Animation handling
         if (moving) {
             spriteCounter++;
             if (spriteCounter > 12) {
                 spriteNum++;
-                if (spriteNum > 2) spriteNum = 0;
+                if (spriteNum > 2)
+                    spriteNum = 0;
                 spriteCounter = 0;
             }
         } else {

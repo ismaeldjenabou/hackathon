@@ -16,7 +16,6 @@ public class CollisionChecker {
     // check the collision between the player the th 2 blocks close to it relatively
     // to the direction
     public void checkTile(Entity entity) {
-      entity.collisionOn = false;
 
       // Get entity solid area position in world coordinates
       int entityLeftWorldX   = entity.worldX + entity.solidArea.x;
