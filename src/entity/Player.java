@@ -116,6 +116,7 @@ public class Player extends Entity {
             spriteNum = 1; // idle frame
             spriteCounter = 0;
         }
+        System.out.println(""+worldX+", "+worldY);
     }
 
     public void draw(Graphics2D g2) {
