@@ -38,7 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gamThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyH);
-    public Enemy enemy = new Enemy(this);
+    public Enemy enemy = new Enemy(this, 11, 31);
+    public Enemy enemy2 = new Enemy(this, 37,9);
     public boolean started = false;
 
     public GamePanel() {
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         gamThread = new Thread(this);
         gamThread.start();
+        started = true;
     }
 
     //draw and update at the fps rate with System.nanoTime() to get the current time
@@ -102,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         player.update();
         enemy.update();
+        enemy2.update();
     }
 
     @Override
@@ -114,6 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
         }else{
           tileM.draw(g2);
           enemy.draw(g2);
+          enemy2.draw(g2);
           player.draw(g2);
         }
 
