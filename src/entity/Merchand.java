@@ -9,7 +9,7 @@ import java.util.Random;
 
 import src.main.GamePanel;
 
-public class Enemy extends Entity {
+public class Merchand extends Entity {
     GamePanel gp;
     Random random = new Random();
     int actionLockCounter = 0;
@@ -17,7 +17,7 @@ public class Enemy extends Entity {
     int x;
     int y;
 
-    public Enemy(GamePanel gp, int x, int y) {
+    public Merchand(GamePanel gp, int x, int y) {
         this.gp = gp;
         this.x = x;
         this.y = y;
@@ -29,24 +29,24 @@ public class Enemy extends Entity {
         solidArea.height = gp.tileSize - solidArea.y;
 
         setDefaultValues();
-        getEnemyImage();
+        getmerchandImage();
     }
 
-    public void getEnemyImage() {
+    public void getmerchandImage() {
         try {
-            up0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_up_0.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_up_2.png"));
+            up0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_up_0.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_up_2.png"));
 
-            down0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_down_0.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_down_2.png"));
+            down0 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_down_0.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_down_2.png"));
 
-            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_left_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_left_2.png"));
 
-            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p2/p2_right_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/res/player/p1/p1_right_2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,50 +62,41 @@ public class Enemy extends Entity {
         int xDistance = Math.abs(worldX - gp.player.worldX);
         int yDistance = Math.abs(worldY - gp.player.worldY);
 
-        if (xDistance <= detectionRange && yDistance <= detectionRange) {
-            if (worldX < gp.player.worldX) direction = "right";
-            else if (worldX > gp.player.worldX) direction = "left";
+        actionLockCounter++;
+        if (actionLockCounter > 60) {
+            boolean validDirection = false;
 
-            if (worldY < gp.player.worldY) direction = "down";
-            else if (worldY > gp.player.worldY) direction = "up";
-
-        } else {
-            actionLockCounter++;
-            if (actionLockCounter > 60) {
-                boolean validDirection = false;
-
-                while (!validDirection) {
-                    int i = random.nextInt(4); // 0 = up, 1 = down, 2 = left, 3 = right
-                    switch (i) {
-                        case 0 -> direction = "up";
-                        case 1 -> direction = "down";
-                        case 2 -> direction = "left";
-                        case 3 -> direction = "right";
-                    }
-
-                    collisionOn = false;
-                    int tempX = worldX;
-                    int tempY = worldY;
-
-                    switch (direction) {
-                        case "up" -> tempY -= speed;
-                        case "down" -> tempY += speed;
-                        case "left" -> tempX -= speed;
-                        case "right" -> tempX += speed;
-                    }
-
-                    int originalX = worldX;
-                    int originalY = worldY;
-                    worldX = tempX;
-                    worldY = tempY;
-                    gp.cChecker.checkTile(this);
-                    validDirection = !collisionOn;
-
-                    worldX = originalX;
-                    worldY = originalY;
+            while (!validDirection) {
+                int i = random.nextInt(4); // 0 = up, 1 = down, 2 = left, 3 = right
+                switch (i) {
+                    case 0 -> direction = "up";
+                    case 1 -> direction = "down";
+                    case 2 -> direction = "left";
+                    case 3 -> direction = "right";
                 }
-                actionLockCounter = 0;
+
+                collisionOn = false;
+                int tempX = worldX;
+                int tempY = worldY;
+
+                switch (direction) {
+                    case "up" -> tempY -= speed;
+                    case "down" -> tempY += speed;
+                    case "left" -> tempX -= speed;
+                    case "right" -> tempX += speed;
+                }
+
+                int originalX = worldX;
+                int originalY = worldY;
+                worldX = tempX;
+                worldY = tempY;
+                gp.cChecker.checkTile(this);
+                validDirection = !collisionOn;
+
+                worldX = originalX;
+                worldY = originalY;
             }
+            actionLockCounter = 0;
         }
     }
     public void update() {

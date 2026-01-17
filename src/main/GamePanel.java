@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 import src.entity.Player;
 import src.entity.Enemy;
+import src.entity.Merchand;
 import src.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this, keyH);
     public Enemy enemy = new Enemy(this, 11, 31);
     public Enemy enemy2 = new Enemy(this, 37,9);
+    public Merchand merchand = new Merchand(this, 10,8);
     public boolean started = false;
 
     public GamePanel() {
@@ -105,6 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.update();
         enemy.update();
         enemy2.update();
+        merchand.update();
     }
 
     @Override
@@ -118,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
           tileM.draw(g2);
           enemy.draw(g2);
           enemy2.draw(g2);
+          merchand.draw(g2);
           player.draw(g2);
         }
 
